@@ -1,0 +1,72 @@
+<!-- results.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Meta tags for character set and viewport -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Title and stylesheet links -->
+    <title>ExploreHub Search Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="container mt-5">
+
+        <!-- Centered content -->
+        <div class="text-center">
+            <!-- Page heading -->
+            <h1 class="display-4">ExploreHub</h1>
+            <!-- Introduction text -->
+            <p class="lead">Welcome to ExploreHub, your gateway to knowledge and discovery!</p>
+        </div>
+
+        <!-- Display search results or alert message -->
+        {% if results == [] %}
+        <div class="alert alert-warning" role="alert">
+            No results found for "{{keywords}}"!
+        </div>
+        {% else %}
+        <!-- Heading for search results -->
+        <h3 class="mt-4">Here are the results for "{{keywords}}"</h3>
+
+        <!-- Back button to return to the welcome page -->
+        <a href="{{ url_for('welcome_page') }}" class="btn btn-secondary mb-3">Back to Welcome Page</a>
+
+        <!-- Iterate through search results and display each in a card -->
+        {% for search_result in results %}
+        <div class="card mt-3">
+            <div class="card-header">
+                <!-- Link to the URL -->
+                <a href={{search_result['url']}}>{{search_result["url"]}}</a>
+                <!-- Badge displaying last checked time -->
+                <span class="badge badge-info ml-2">Last Checked: {{search_result["time"]}}</span>
+            </div>
+            <div class="card-body">
+                <!-- Title of the result -->
+                <h5 class="card-title">
+                    {{search_result["title"]|safe}}
+                </h5>
+                <!-- Text content of the result -->
+                <p class="card-text">
+                    {{search_result["text"]|safe}}
+                </p>
+            </div>
+        </div>
+        {% endfor %}
+        </div>
+        {% endif %}
+
+    </div>
+
+    <!-- Bootstrap and jQuery scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.8/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>
